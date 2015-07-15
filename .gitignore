@@ -1,0 +1,3 @@
+bower_components/
+node_modules/
+wordnikApi/api_key.js
