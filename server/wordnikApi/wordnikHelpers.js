@@ -14,7 +14,8 @@ var RANDOM_WORDS_OPTIONS = {
   minDictionaryCount: 25,
   excludePartOfSpeech: 'proper-noun',
   minLength: 5,
-  maxLength: 6
+  maxLength: 6,
+  limit: 1
 };
 
 var RESPONSE_OPTIONS = {responseContentType: 'application/json'};
@@ -31,10 +32,8 @@ module.exports = {
   getRandomWords: function(cb) {
     if (words.isBuilt) {
       words.words.getRandomWords(RANDOM_WORDS_OPTIONS, RESPONSE_OPTIONS, function(response) {
-        var randomWords = response.obj.map(function(wordObj) {
-          return wordObj.word;
-        })
-        cb(randomWords);
+        var randomWord = response.obj[0].word;
+        cb(randomWord);
       }, function(error) {
         console.log('getRandomWords error: ', error);
         cb(error.statusText);

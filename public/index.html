@@ -3,17 +3,51 @@
 <head>
   <title>Word Scramble</title>
   <script src="bower_components/angular/angular.min.js"></script>
+  <link rel="stylesheet" href="appStyle.css">
 </head>
-<body>
-  <div class="main-container">
+<body ng-app="scrambleApp">
+  <div class="main-container" ng-app="scrambleApp">
     <h1>Word Scramble</h1>
-    <div class="app" ng-app="scrambleApp">
-    Hello
-      <div ng-controller="hihi">Yellow</div>
-    </div>
+    <div class="game-container" ng-controller="mainController">
 
-    <script src="scripts/app.js"></script>
-    <script src="scripts/controllers/input.js"></script>
+      <div scramble-input class="start-screen" ng-if="state==='start'" ng-controller="startController">
+        <div>Goal: Try to unscramble to letters provided.</div>
+        <div>Press Enter to start the game!</div>
+      </div>
+
+      <div scramble-input class="play-screen" ng-if="state==='play'" ng-controller="playController">
+        <div class="play-letters">
+          <span class="user-letter" ng-repeat="userLetter in userInput track by $index">
+            {{userLetter}}
+          </span>
+          <span class="letter" ng-repeat="letter in letters track by $index">
+            {{letter}}
+          </span>
+        </div>
+        <div class="play-stats">
+          <div class="play-time">Time remaining: {{timer}}</div>
+          <div class="play-score">Current score: {{score}}</div>
+        </div>
+      </div>
+
+      <div scramble-input class="score-screen" ng-if="state==='score'" ng-controller="scoreController">
+        <div>Your score was: {{score}}</div>
+        <div>Press Enter to play again!</div>
+      </div>
+
+    </div>
   </div>
+
+  <script src="scripts/app.js"></script>
+
+  <script src="scripts/mainController.js"></script>
+  <script src="scripts/startController.js"></script>
+  <script src="scripts/playController.js"></script>
+  <script src="scripts/scoreController.js"></script>
+
+  <script src="scripts/scrambleInputDirective.js"></script>
+
+  <script src="scripts/gameStateService.js"></script>
+  <script src="scripts/wordService.js"></script>
 </body>
 </html>

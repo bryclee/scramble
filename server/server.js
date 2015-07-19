@@ -8,13 +8,13 @@ app.use('/', express.static('public', {
   index: 'index.html'
 }));
 
-app.get('/getRandom', function(req, res) {
+app.get('/randomWord', function(req, res) {
   wordnik.getRandomWords(function(data) {
     res.send(data);
   });
 });
 
-app.get('/searchWords/*', function(req, res) {
+app.get('/checkWord/*', function(req, res) {
   wordnik.searchWords(req.params[0], function(data) {
     res.send(data);
   });
