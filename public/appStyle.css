@@ -5,22 +5,41 @@ html, body {
   text-align: center;
 }
 
-h1 {
-  font-weight: 100;
-  text-transform: uppercase;
+.header {
+  background-color: rgba(44, 44, 44, 0.5);
+  border-radius: 20px;
+}
+
+.header-title {
+  display: inline-block;
+  margin: 20px;
+}
+
+.game-container {
+  margin: 20px 0;
+}
+
+.text-screen {
+  animation-name: fade-in;
+  animation-duration: 0.6s;
+  background-color: rgba(77, 77, 77, 0.2);
+  border-radius: 20px;
+  margin: 100px 0;
+  padding: 20px 10px;
 }
 
 .info {
   margin: 10px 0;
 }
 
-.play-letter-box {
-  height: 200px;
-}
-
-.main-container {
+.container {
   width: 600px;
   margin: 20px auto;
+}
+
+
+.play-letter-box {
+  padding: 60px 0;
 }
 
 .user-letter, .scramble-letter {
@@ -28,35 +47,48 @@ h1 {
   font-weight: bold;
   height: 70px;
   line-height: 70px;
-  margin: 30px 5px 70px 5px;
+  margin: 5px;
   text-transform: uppercase;
   width: 70px;
 }
 
 .user-letter {
-  animation-name: light;
+  animation-name: lighten;
   animation-duration: 0.2s;
   background-color: rgba(255, 255, 255, 0.5);
-  color: black;
+  border-radius: 30px;
+  color: rgb(00, 70, 140);
   display: inline-block;
 }
 
 .scramble-letter {
-  animation-name: fade;
+  animation-name: darken;
   animation-duration: 0.2s;
   background-color: rgba(150, 150, 150, 0.5);
   color: black;
   display: inline-block;
 }
 
-@keyframes light {
+@keyframes lighten {
   from {
     background-color: rgba(150, 150, 150, 0.5);
+    border-radius: 10px;
   }
 }
 
-@keyframes fade {
+@keyframes darken {
   from {
     background-color: rgba(255, 255, 255, 0.5);
+    borer-radius: 30px;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

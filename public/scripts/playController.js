@@ -8,6 +8,7 @@ angular.module('scrambleApp').
     $scope.score = 0;
 
     var inputReady = true;
+    var currentWord;
     var numCharacters; //number of characters
     var startTime; //marks when word was given to give score
     var endTime = Date.now() + 60999; //set end time to 60s from current time
@@ -16,10 +17,12 @@ angular.module('scrambleApp').
     //Set scope 'letters' to a new random word
     var getRandomWord = function() {
       inputReady = false;
-      wordFactory.getRandomWord(function(shuffledWord, error) {
+      wordFactory.getRandomWord(function(randomWord, error) {
         if (error) {
           console.log(error);
         } else {
+          currentWord = randomWord;
+          var shuffledWord = wordFactory.shuffleWord(currentWord);
           $scope.letters = shuffledWord.map(function(letter) {return {letter:letter}});
           $scope.userInput = [];
           startTime = Date.now();
@@ -34,8 +37,12 @@ angular.module('scrambleApp').
       $scope.timer = Math.floor((endTime - Date.now())/1000);
       if ($scope.timer <= 0) {
         //Trigger the end game
-        gameStateService.setScore($scope.score);
-        gameStateService.setState('score');
+        console.log(currentWord);
+        gameStateService.setState({
+          state: 'score',
+          score: $scope.score,
+          word: currentWord
+        });
       }
     };
 
@@ -91,8 +98,8 @@ angular.module('scrambleApp').
               } else {
                 $scope.letters = $scope.userInput;
                 $scope.userInput = [];
+                inputReady = true;
               }
-              inputReady = true;
             }
           });
         }

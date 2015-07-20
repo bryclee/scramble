@@ -14,16 +14,20 @@ angular.module('scrambleApp').
     }
 
     return {
-
       //Takes a callback and passes in a split random word from the API
       getRandomWord: function(cb) {
         $http.get('/randomWord').
           success(function(data) {
-            cb(shuffle(data.split('')));
+            cb(data);
           }).
           error(function(error) {
             cb(null, error);
           });
+      },
+
+      //Takes a word passed in as a string and returns a shuffled array
+      shuffleWord: function(word) {
+        return shuffle(word.split(''));
       },
 
       //Checks a word against the API

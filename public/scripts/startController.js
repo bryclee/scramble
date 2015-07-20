@@ -7,7 +7,7 @@ angular.module('scrambleApp').
     $scope.handleKeypress = function(e) {
       if (e.which === 13) {
         $scope.$apply(function() {
-          gameStateService.setState('play');
+          gameStateService.setState({state: 'play'});
         });
       }
     };

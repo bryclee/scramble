@@ -6,13 +6,15 @@
   <link rel="stylesheet" href="appStyle.css">
 </head>
 <body ng-app="scrambleApp">
-  <div class="main-container" ng-app="scrambleApp">
-    <h1>Word Scramble</h1>
-    <div class="game-container" ng-controller="mainController">
+  <div class="container" ng-app="scrambleApp">
+    <header class="header">
+      <h1 class="header-title">Word Scramble</h1>
+    </header>
+    <main class="game-container" ng-controller="mainController">
 
-      <div scramble-input class="start-screen" ng-if="state==='start'" ng-controller="startController">
+      <div scramble-input class="start-screen text-screen" ng-if="state==='start'" ng-controller="startController">
         <div class="info">Try to unscramble to letters provided.</div>
-        <div class="info">Press Enter to start the game!</div>
+        <div class="info">Press <strong>Enter</strong> to start the game!</div>
       </div>
 
       <div scramble-input class="play-screen" ng-if="state==='play'" ng-controller="playController">
@@ -25,18 +27,19 @@
           </span>
         </div>
         <div class="play-stats">
-          <div class="play-time info">Time remaining: {{timer}}</div>
-          <div class="play-score info">Current score: {{score}}</div>
+          <div class="play-time info">Time remaining: <strong>{{timer}}</strong></div>
+          <div class="play-score info">Current score: <strong>{{score}}</strong></div>
         </div>
       </div>
 
-      <div scramble-input class="score-screen" ng-if="state==='score'" ng-controller="scoreController">
-        <div class="info">Your score was: {{score}}</div>
-        <div class="info">Press Enter to play again!</div>
+      <div scramble-input class="score-screen text-screen" ng-if="state==='score'" ng-controller="scoreController">
+        <div class="info">The last word was <strong>{{word}}</strong>.</div>
+        <div class="info">Your score was <strong>{{score}}</strong>.</div>
+        <div class="info">Press <strong>Enter</strong> to play again!</div>
       </div>
 
     </div>
-  </div>
+  </main>
 
   <script src="scripts/app.js"></script>
 
