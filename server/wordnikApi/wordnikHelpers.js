@@ -13,9 +13,13 @@ var words = new client({
 var RANDOM_WORDS_OPTIONS = {
   minDictionaryCount: 25,
   excludePartOfSpeech: 'proper-noun',
-  minLength: 5,
+  minLength: 4,
   maxLength: 6,
   limit: 1
+};
+
+var ERROR_STRINGS = {
+  not_ready: 'Server is still configuring, please refresh the page.'
 };
 
 var RESPONSE_OPTIONS = {responseContentType: 'application/json'};
@@ -39,13 +43,12 @@ module.exports = {
         cb(error.statusText);
       });
     } else {
-      cb(null);
+      cb(ERROR_STRINGS.not_ready);
     }
   },
   searchWords: function(query, cb) {
     if (words.isBuilt) {
       words.words.searchWords(makeSearchQuery(query), RESPONSE_OPTIONS, function(response) {
-        console.log(query, ':', response.obj);
         if (response.obj.totalResults) {
           cb(true);
         } else {
@@ -56,7 +59,7 @@ module.exports = {
         cb(error.statusText);
       });
     } else {
-      cb(null);
+      cb(ERRORS_STRINGS.not_ready);
     }
   }
 };

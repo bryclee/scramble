@@ -1,11 +1,13 @@
 angular.module('scrambleApp').
   controller('playController', ['$scope', '$interval', 'wordFactory', 'gameStateService',
              function($scope, $interval, wordFactory, gameStateService) {
+    //Controls the gameplay part
 
     $scope.letters = [];
     $scope.userInput = [];
     $scope.score = 0;
 
+    var inputReady = true;
     var numCharacters; //number of characters
     var startTime; //marks when word was given to give score
     var endTime = Date.now() + 60999; //set end time to 60s from current time
@@ -17,7 +19,7 @@ angular.module('scrambleApp').
         if (error) {
           console.log(error);
         } else {
-          $scope.letters = shuffledWord;
+          $scope.letters = shuffledWord.map(function(letter) {return {letter:letter}});
           $scope.userInput = [];
           startTime = Date.now();
           numCharacters = shuffledWord.length;
@@ -46,13 +48,13 @@ angular.module('scrambleApp').
 
       if (e.which === 8) {
         //Delete a character and prevent browser from navigating back
-        if (inputs.length) {
-          letters.push(inputs.pop());
+        if (inputs.length && inputReady) {
+          letters.unshift(inputs.pop());
         }
         e.preventDefault();
-      } else {
+      } else if (inputReady) {
         for (var i = 0; i < letters.length; i++) {
-          if (letters[i] === character) {
+          if (letters[i].letter === character) {
             letter = letters.splice(i, 1)[0];
             break;
           }
@@ -71,19 +73,24 @@ angular.module('scrambleApp').
         return scope.userInput.length === numCharacters;
       }, function(newVal, oldVal) {
         if (newVal === true) {
-          wordFactory.checkWord($scope.userInput.join(''), function(data, error) {
+          inputReady = false;
+          var word = $scope.userInput.map(function(letterObj) {
+            return letterObj.letter;
+          }).join('');
+          wordFactory.checkWord(word, function(data, error) {
             if (error) {
               console.log(error);
             } else {
               if (data) {
                 var time = Math.floor((Date.now() - startTime) / 1000);
-                var score = Math.max(20 - time, 1);
+                var score = Math.max(20 - time, numCharacters * 2);
                 $scope.score = $scope.score + score;
                 getRandomWord();
               } else {
                 $scope.letters = $scope.userInput;
                 $scope.userInput = [];
               }
+              inputReady = true;
             }
           });
         }

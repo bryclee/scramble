@@ -1,7 +1,62 @@
-.user-letter {
-  color: blue;
+html, body {
+  background: linear-gradient(to right, #0099FF, #66DDFF);
+  color: white;
+  font: 20pt Arial, sans-serif;
+  text-align: center;
 }
 
-.letter {
-  color: red;
+h1 {
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+.info {
+  margin: 10px 0;
+}
+
+.play-letter-box {
+  height: 200px;
+}
+
+.main-container {
+  width: 600px;
+  margin: 20px auto;
+}
+
+.user-letter, .scramble-letter {
+  border-radius: 10px;
+  font-weight: bold;
+  height: 70px;
+  line-height: 70px;
+  margin: 30px 5px 70px 5px;
+  text-transform: uppercase;
+  width: 70px;
+}
+
+.user-letter {
+  animation-name: light;
+  animation-duration: 0.2s;
+  background-color: rgba(255, 255, 255, 0.5);
+  color: black;
+  display: inline-block;
+}
+
+.scramble-letter {
+  animation-name: fade;
+  animation-duration: 0.2s;
+  background-color: rgba(150, 150, 150, 0.5);
+  color: black;
+  display: inline-block;
+}
+
+@keyframes light {
+  from {
+    background-color: rgba(150, 150, 150, 0.5);
+  }
+}
+
+@keyframes fade {
+  from {
+    background-color: rgba(255, 255, 255, 0.5);
+  }
 }

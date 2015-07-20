@@ -11,28 +11,28 @@
     <div class="game-container" ng-controller="mainController">
 
       <div scramble-input class="start-screen" ng-if="state==='start'" ng-controller="startController">
-        <div>Goal: Try to unscramble to letters provided.</div>
-        <div>Press Enter to start the game!</div>
+        <div class="info">Try to unscramble to letters provided.</div>
+        <div class="info">Press Enter to start the game!</div>
       </div>
 
       <div scramble-input class="play-screen" ng-if="state==='play'" ng-controller="playController">
-        <div class="play-letters">
-          <span class="user-letter" ng-repeat="userLetter in userInput track by $index">
-            {{userLetter}}
-          </span>
-          <span class="letter" ng-repeat="letter in letters track by $index">
-            {{letter}}
+        <div class="play-letter-box">
+          <span class="user-letter" ng-repeat="userLetter in userInput">
+            {{userLetter.letter}}
+          </span><!--
+          --><span class="scramble-letter" ng-repeat="letter in letters">
+            {{letter.letter}}
           </span>
         </div>
         <div class="play-stats">
-          <div class="play-time">Time remaining: {{timer}}</div>
-          <div class="play-score">Current score: {{score}}</div>
+          <div class="play-time info">Time remaining: {{timer}}</div>
+          <div class="play-score info">Current score: {{score}}</div>
         </div>
       </div>
 
       <div scramble-input class="score-screen" ng-if="state==='score'" ng-controller="scoreController">
-        <div>Your score was: {{score}}</div>
-        <div>Press Enter to play again!</div>
+        <div class="info">Your score was: {{score}}</div>
+        <div class="info">Press Enter to play again!</div>
       </div>
 
     </div>
