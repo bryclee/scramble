@@ -15,6 +15,7 @@ angular.module('scrambleApp').
 
     //Set scope 'letters' to a new random word
     var getRandomWord = function() {
+      inputReady = false;
       wordFactory.getRandomWord(function(shuffledWord, error) {
         if (error) {
           console.log(error);
@@ -24,6 +25,7 @@ angular.module('scrambleApp').
           startTime = Date.now();
           numCharacters = shuffledWord.length;
         }
+        inputReady = true;
       });
     };
 

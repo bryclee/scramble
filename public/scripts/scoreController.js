@@ -6,7 +6,9 @@ angular.module('scrambleApp').
     $scope.score = gameStateService.getScore();
 
     $scope.handleKeypress = function(e) {
-      if (e.which === 13) {
+      if (e.which === 8) {
+        e.preventDefault();
+      } else if (e.which === 13) {
         $scope.$apply(function() {
           gameStateService.setState('play');
         });
