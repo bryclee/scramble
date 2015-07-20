@@ -19,7 +19,8 @@ var RANDOM_WORDS_OPTIONS = {
 };
 
 var ERROR_STRINGS = {
-  not_ready: 'Server is still configuring, please refresh the page.'
+  not_ready: 'Server is still configuring, please refresh the page.',
+  server: 'Please try again later.'
 };
 
 var RESPONSE_OPTIONS = {responseContentType: 'application/json'};
@@ -56,10 +57,10 @@ module.exports = {
         }
       }, function(error) {
         console.log('searchWords error: ', error);
-        cb(error.statusText);
+        cb(ERROR_STRINGS.server);
       });
     } else {
-      cb(ERRORS_STRINGS.not_ready);
+      cb(ERROR_STRINGS.not_ready);
     }
   }
 };
