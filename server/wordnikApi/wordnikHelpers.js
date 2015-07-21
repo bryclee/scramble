@@ -2,11 +2,11 @@ var client = require('swagger-client');
 var apiKey = process.env.API_KEY || require('./api_key.js');
 var ClientApiKey = new client.ApiKeyAuthorization('api_key', apiKey, 'query');
 
-var words = new client({
+var Wordnik = new client({
   url: 'http://developer.wordnik.com/v4/words.json',
   success: function() {
     console.log('wordnik client ready');
-    words.clientAuthorizations.add('apiKey', ClientApiKey);
+    Wordnik.clientAuthorizations.add('apiKey', ClientApiKey);
   }
 });
 
@@ -35,8 +35,8 @@ var makeSearchQuery = function(query) {
 
 module.exports = {
   getRandomWords: function(cb) {
-    if (words.isBuilt) {
-      words.words.getRandomWords(RANDOM_WORDS_OPTIONS, RESPONSE_OPTIONS, function(response) {
+    if (Wordnik.isBuilt) {
+      Wordnik.words.getRandomWords(RANDOM_WORDS_OPTIONS, RESPONSE_OPTIONS, function(response) {
         var randomWord = response.obj[0].word.toLowerCase();
         cb(randomWord);
       }, function(error) {
@@ -48,8 +48,8 @@ module.exports = {
     }
   },
   searchWords: function(query, cb) {
-    if (words.isBuilt) {
-      words.words.searchWords(makeSearchQuery(query), RESPONSE_OPTIONS, function(response) {
+    if (Wordnik.isBuilt) {
+      Wordnik.words.searchWords(makeSearchQuery(query), RESPONSE_OPTIONS, function(response) {
         if (response.obj.totalResults) {
           cb(true);
         } else {

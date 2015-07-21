@@ -5,8 +5,9 @@ angular.module('scrambleApp').
       restrict: 'A',
 
       link: function(scope, element, attr) {
-
-        var handleKeypress = scope.handleKeypress;
+        var handleKeypress = function(e) {
+          scope.$apply(scope.handleKeypress.bind(null, e));
+        }
 
         if (handleKeypress) {
           $document.on('keydown', handleKeypress);
@@ -15,7 +16,7 @@ angular.module('scrambleApp').
             $document.off('keydown', handleKeypress);
           });
         }
-
       }
+
     };
   }]);

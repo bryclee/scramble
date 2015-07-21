@@ -12,12 +12,12 @@
     </header>
     <main class="game-container" ng-controller="mainController">
 
-      <div scramble-input class="start-screen text-screen" ng-if="state==='start'" ng-controller="startController">
+      <div scramble-input class="start-screen text-screen" ng-if="isStart()" ng-controller="startController">
         <div class="info">Try to unscramble to letters provided.</div>
         <div class="info">Press <strong>Enter</strong> to start the game!</div>
       </div>
 
-      <div scramble-input class="play-screen" ng-if="state==='play'" ng-controller="playController">
+      <div scramble-input class="play-screen" ng-if="isPlay()" ng-controller="playController">
         <div class="play-letter-box">
           <span class="user-letter" ng-repeat="userLetter in userInput" ng-bind="userLetter.letter"></span><!--
           --><span class="scramble-letter" ng-repeat="letter in letters" ng-bind="letter.letter"></span>
@@ -28,7 +28,7 @@
         </div>
       </div>
 
-      <div scramble-input class="score-screen text-screen" ng-if="state==='score'" ng-controller="scoreController">
+      <div scramble-input class="score-screen text-screen" ng-if="isScore()" ng-controller="scoreController">
         <div class="info">The last word was <strong ng-bind="word"></strong>.</div>
         <div class="info">Your score was <strong ng-bind="score"></strong>.</div>
         <div class="info">Press <strong>Enter</strong> to play again!</div>

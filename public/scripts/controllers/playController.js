@@ -1,6 +1,7 @@
 angular.module('scrambleApp').
-  controller('playController', ['$scope', '$interval', 'wordFactory', 'gameStateService',
-             function($scope, $interval, wordFactory, gameStateService) {
+  controller('playController',
+      ['$scope', '$interval', 'wordFactory', 'gameStateService', 'STATES',
+      function($scope, $interval, wordFactory, gameStateService, STATES) {
     //Controls the gameplay part
 
     $scope.letters = [];
@@ -8,8 +9,7 @@ angular.module('scrambleApp').
     $scope.score = 0;
 
     var inputReady = true;
-    var currentWord;
-    var numCharacters; //number of characters
+    var currentWord = '';
     var startTime; //marks when word was given to give score
     var endTime = Date.now() + 60999; //set end time to 60s from current time
     var timer;
@@ -20,14 +20,14 @@ angular.module('scrambleApp').
       wordFactory.getRandomWord(function(randomWord, error) {
         if (error) {
           console.log(error);
-        } else {
-          currentWord = randomWord;
-          var shuffledWord = wordFactory.shuffleWord(currentWord);
-          $scope.letters = shuffledWord.map(function(letter) {return {letter:letter}});
-          $scope.userInput = [];
-          startTime = Date.now();
-          numCharacters = shuffledWord.length;
+          return;
         }
+
+        currentWord = randomWord;
+        var shuffledWord = wordFactory.shuffleWord(currentWord);
+        $scope.letters = shuffledWord.map(function(letter) {return {letter:letter};});
+        $scope.userInput = [];
+        startTime = Date.now();
         inputReady = true;
       });
     };
@@ -37,12 +37,9 @@ angular.module('scrambleApp').
       $scope.timer = Math.floor((endTime - Date.now())/1000);
       if ($scope.timer <= 0) {
         //Trigger the end game
-        console.log(currentWord);
-        gameStateService.setState({
-          state: 'score',
-          score: $scope.score,
-          word: currentWord
-        });
+        gameStateService.setScore($scope.score);
+        gameStateService.setWord(currentWord);
+        gameStateService.setState(STATES.score);
       }
     };
 
@@ -72,51 +69,46 @@ angular.module('scrambleApp').
           inputs.push(letter);
         }
       }
-
-      //Calls the digest cycle to update the DOM
-      $scope.$digest();
     };
 
     //Trigger the word check when the user has input all of the letters
     $scope.$watch(function(scope) {
-        return scope.userInput.length === numCharacters;
+        return scope.userInput.length === currentWord.length;
       }, function(newVal, oldVal) {
-        if (newVal === true) {
-          inputReady = false;
-          var word = $scope.userInput.map(function(letterObj) {
-            return letterObj.letter;
-          }).join('');
-          wordFactory.checkWord(word, function(data, error) {
-            if (error) {
-              console.log(error);
-            } else {
-              if (data) {
-                var time = Math.floor((Date.now() - startTime) / 1000);
-                var score = Math.max(20 - time, numCharacters * 2);
-                $scope.score = $scope.score + score;
-                getRandomWord();
-              } else {
-                $scope.letters = $scope.userInput;
-                $scope.userInput = [];
-                inputReady = true;
-              }
-            }
-          });
+        if (!newVal || !currentWord.length) {
+          return;
         }
+
+        inputReady = false;
+        var word = $scope.userInput.map(function(letterObj) {
+          return letterObj.letter;
+        }).join('');
+        wordFactory.checkWord(word, function(data, error) {
+          if (error) {
+            console.log(error);
+            return;
+          } else if (!data) {
+            $scope.letters = $scope.userInput;
+            $scope.userInput = [];
+            inputReady = true;
+            return;
+          }
+
+          var time = Math.floor((Date.now() - startTime) / 1000);
+          var score = Math.max(25 - time, currentWord.length * 2);
+          $scope.score = $scope.score + score;
+          getRandomWord();
+        });
       });
 
-    //Initializing function
-    (function init() {
-      getRandomWord();
-      updateTimer();
+    //Initializing
+    getRandomWord();
+    updateTimer();
 
-      timer = $interval(function() {
-        updateTimer();
-      }, 1000);
+    timer = $interval(updateTimer, 1000);
 
-      $scope.$on('$destroy', function() {
-        $interval.cancel(timer);
-      });
-    })();
+    $scope.$on('$destroy', function() {
+      $interval.cancel(timer);
+    });
 
   }]);
