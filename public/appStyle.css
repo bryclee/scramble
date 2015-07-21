@@ -1,12 +1,12 @@
 html, body {
-  background: linear-gradient(to right, #0099FF, #66DDFF);
+  background: linear-gradient(to right, rgb(0,153,255), rgb(102,221,255));
   color: white;
   font: 20pt Arial, sans-serif;
   text-align: center;
 }
 
 .header {
-  background-color: rgba(44, 44, 44, 0.5);
+  background-color: rgba(44,44,44,0.5);
   border-radius: 20px;
 }
 
@@ -31,7 +31,7 @@ html, body {
 .text-screen {
   animation-name: fade-in;
   animation-duration: 0.6s;
-  background-color: rgba(77, 77, 77, 0.2);
+  background-color: rgba(77,77,77,0.2);
   border-radius: 20px;
   margin: 100px 0;
   padding: 20px 10px;
@@ -64,30 +64,30 @@ html, body {
 .user-letter {
   animation-name: lighten;
   animation-duration: 0.2s;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255,255,255,0.5);
   border-radius: 30px;
-  color: rgb(00, 70, 140);
+  color: rgb(0,70,140);
   display: inline-block;
 }
 
 .scramble-letter {
   animation-name: darken;
   animation-duration: 0.2s;
-  background-color: rgba(150, 150, 150, 0.5);
+  background-color: rgba(150,150,150,0.5);
   color: black;
   display: inline-block;
 }
 
 @keyframes lighten {
   from {
-    background-color: rgba(150, 150, 150, 0.5);
+    background-color: rgba(150,150,150,0.5);
     border-radius: 10px;
   }
 }
 
 @keyframes darken {
   from {
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255,255,255,0.5);
     borer-radius: 30px;
   }
 }

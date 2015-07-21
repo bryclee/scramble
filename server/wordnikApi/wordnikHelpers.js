@@ -37,7 +37,7 @@ module.exports = {
   getRandomWords: function(cb) {
     if (words.isBuilt) {
       words.words.getRandomWords(RANDOM_WORDS_OPTIONS, RESPONSE_OPTIONS, function(response) {
-        var randomWord = response.obj[0].word;
+        var randomWord = response.obj[0].word.toLowerCase();
         cb(randomWord);
       }, function(error) {
         console.log('getRandomWords error: ', error);
